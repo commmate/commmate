@@ -30,7 +30,6 @@ jobs:
           images: 058264526568.dkr.ecr.eu-west-1.amazonaws.com/imediato-nautica-chat
 
       - name: Build and push Docker image
-        id: build-and-push
         uses: docker/build-push-action@v3
         with:
           context: ./chat
@@ -41,5 +40,5 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Post build info
-        run: echo "Image URL: 058264526568.dkr.ecr.eu-west-1.amazonaws.com/imediato-nautica-chat:latest"
-
+        run: |
+          echo "Image URL: 058264526568.dkr.ecr.eu-west-1.amazonaws.com/imediato-nautica-chat:latest"
