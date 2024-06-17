@@ -20,8 +20,6 @@ jobs:
       - name: Log in to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-        with:
-          region: ${{ vars.AWS_REGION }}
 
       - name: Extract git metadata
         id: meta
@@ -38,7 +36,10 @@ jobs:
         env:
           OPENAI_ORGANIZATION_ID: ${{ secrets.OPENAI_ORGANIZATION_ID }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
 
       - name: Post build info
         run: |
           echo "Image URL: 058264526568.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com/imediato-nautica-chat:latest"
+        env:
+          AWS_REGION: ${{ vars.AWS_REGION }}
