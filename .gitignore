@@ -1,0 +1,21 @@
+# Ignore the .env file
+.env
+
+# Python related ignores
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment folders
+env/
+venv/
+ENV/
+venv/
+
+# Miscellaneous
+*.log
+*.sqlite3
+
+# Ignore the .env file in the chat directory
+/chat/.env
+

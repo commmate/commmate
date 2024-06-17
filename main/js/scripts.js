@@ -3,5 +3,18 @@
 * Copyright 2013-2023 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-full-width-pics/blob/master/LICENSE)
 */
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
+document.addEventListener("DOMContentLoaded", function() {
+    fetch("header.html")
+        .then(response => response.text())
+        .then(data => {
+            document.querySelector("head").innerHTML += data;
+            document.body.insertAdjacentHTML('afterbegin', data);
+        });
+
+    fetch("footer.html")
+        .then(response => response.text())
+        .then(data => {
+            document.body.insertAdjacentHTML('beforeend', data);
+        });
+});
+

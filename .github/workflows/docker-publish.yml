@@ -1,0 +1,45 @@
+name: Build and Publish to ECR
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry: 058264526568.dkr.ecr.eu-west-1.amazonaws.com
+
+      - name: Extract git metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: 058264526568.dkr.ecr.eu-west-1.amazonaws.com/imediato-nautica-chat
+
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./chat
+          push: true
+          tags: 058264526568.dkr.ecr.eu-west-1.amazonaws.com/imediato-nautica-chat:latest
+        env:
+          OPENAI_ORGANIZATION_ID: ${{ secrets.OPENAI_ORGANIZATION_ID }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Post build info
+        run: echo "Image URL: 058264526568.dkr.ecr.eu-west-1.amazonaws.com/imediato-nautica-chat:latest"
+
