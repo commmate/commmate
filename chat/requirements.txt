@@ -1,6 +1,2 @@
 flask
 openai
-python-dotenv
-aws-lambda-powertools
-aws-lambda-wsgi
-
