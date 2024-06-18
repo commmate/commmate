@@ -52,6 +52,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ vars.AWS_REGION }}
         run: |
+          cd chat
           eb init -p python-3.11 imediato-nautica-backend --region $AWS_REGION
 
       - name: Create EB environment
@@ -62,6 +63,7 @@ jobs:
           OPENAI_ORGANIZATION_ID: ${{ secrets.OPENAI_ORGANIZATION_ID }}
           AWS_REGION: ${{ vars.AWS_REGION }}
         run: |
+          cd chat
           eb create imediato-nautica-backend-env --envvars OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},OPENAI_ORGANIZATION_ID=${{ secrets.OPENAI_ORGANIZATION_ID }} || echo "Environment already exists"
           eb use imediato-nautica-backend-env
 
@@ -71,6 +73,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ vars.AWS_REGION }}
         run: |
+          cd chat
           eb deploy imediato-nautica-backend-env
 
       - name: Post deployment info
