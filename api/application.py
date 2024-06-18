@@ -14,7 +14,7 @@ client = OpenAI(
 # Redirect HTTP to HTTPS
 @application.before_request
 def before_request():
-    if not request.is_secure and not app.debug:
+    if not request.is_secure and not application.debug:
         url = request.url.replace("http://", "https://", 1)
         return redirect(url, code=301)
 
