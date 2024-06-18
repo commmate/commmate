@@ -24,7 +24,7 @@ def chat():
 
     try:
         # Chamada para a API OpenAI usando o modelo gpt-3.5-turbo
-        stream = client.ChatCompletion.create(
+        stream = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages,
             stream=True,
