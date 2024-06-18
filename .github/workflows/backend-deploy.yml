@@ -63,6 +63,7 @@ jobs:
           AWS_REGION: ${{ vars.AWS_REGION }}
         run: |
           eb create my-eb-env --envvars OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},OPENAI_ORGANIZATION_ID=${{ secrets.OPENAI_ORGANIZATION_ID }} || echo "Environment already exists"
+          eb use my-eb-env
 
       - name: Deploy to Elastic Beanstalk
         env:
@@ -70,7 +71,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ vars.AWS_REGION }}
         run: |
-          eb deploy
+          eb deploy my-eb-env
 
       - name: Post deployment info
         run: |
