@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r ./chat/requirements.txt
+          pip install -r ./api/requirements.txt
 
       - name: Install AWS CLI
         run: |
@@ -52,7 +52,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ vars.AWS_REGION }}
         run: |
-          cd chat
+          cd api
           eb init -p python-3.11 imediato-nautica-backend --region $AWS_REGION
 
       - name: Create EB environment
@@ -63,7 +63,7 @@ jobs:
           OPENAI_ORGANIZATION_ID: ${{ secrets.OPENAI_ORGANIZATION_ID }}
           AWS_REGION: ${{ vars.AWS_REGION }}
         run: |
-          cd chat
+          cd api
           eb create imediato-nautica-backend-env --envvars OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},OPENAI_ORGANIZATION_ID=${{ secrets.OPENAI_ORGANIZATION_ID }} || echo "Environment already exists"
           eb use imediato-nautica-backend-env
 
@@ -73,7 +73,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ vars.AWS_REGION }}
         run: |
-          cd chat
+          cd api
           eb deploy imediato-nautica-backend-env
 
       - name: Post deployment info

@@ -29,14 +29,14 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: 058264526568.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com/imediato-nautica-chat
+          images: 058264526568.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com/imediato-nautica-api
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ./chat
+          context: ./api
           push: true
-          tags: 058264526568.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com/imediato-nautica-chat:latest
+          tags: 058264526568.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com/imediato-nautica-api:latest
         env:
           OPENAI_ORGANIZATION_ID: ${{ secrets.OPENAI_ORGANIZATION_ID }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -44,6 +44,6 @@ jobs:
 
       - name: Post build info
         run: |
-          echo "Image URL: 058264526568.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com/imediato-nautica-chat:latest"
+          echo "Image URL: 058264526568.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com/imediato-nautica-api:latest"
         env:
           AWS_REGION: ${{ vars.AWS_REGION }}
