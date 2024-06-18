@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect, url_for
 from openai import OpenAI
 import awsgi
 
@@ -10,6 +10,13 @@ client = OpenAI(
     organization=os.getenv('OPENAI_ORGANIZATION_ID'),
     project=os.getenv('OPENAI_PROJECT_ID')
 )
+
+# Redirect HTTP to HTTPS
+@application.before_request
+def before_request():
+    if not request.is_secure and not app.debug:
+        url = request.url.replace("http://", "https://", 1)
+        return redirect(url, code=301)
 
 @application.route('/chat', methods=['POST'])
 def chat():
