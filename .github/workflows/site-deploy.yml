@@ -1,4 +1,4 @@
-name: Deploy main page to S3
+name: Deploy WebSite page to S3
 
 on:
   workflow_dispatch:
@@ -37,10 +37,9 @@ jobs:
             echo "Bucket exists"
           else
             echo "Bucket does not exist, creating..."
-            aws s3api create-bucket --bucket imediatonautica.com.br --region ${{ vars.AWS_REGION }} --create-bucket-configuration LocationConstraint=${{ vars.AWS_REGION }}
-            aws s3api put-bucket-versioning --bucket imediatonautica.com.br --versioning-configuration Status=Enabled
+            aws s3api create-bucket --bucket imediatonautica.com.br --region ${{ vars.AWS_REGION }}
           fi
 
       - name: Sync files to S3
         run: |
-          aws s3 sync ./main s3://imediatonautica.com.br --delete
+          aws s3 sync ./site s3://imediatonautica.com.br --delete
