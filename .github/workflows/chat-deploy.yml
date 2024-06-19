@@ -1,4 +1,4 @@
-name: Deploy Frontend to Amplify
+name: Build and Deploy Frontend to Elastic Beanstalk
 
 on:
   workflow_dispatch:
@@ -6,9 +6,25 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: |
+          cd chat
+          npm install
+
+      - name: Build project
+        run: |
+          cd chat
+          npm run build
 
       - name: Install AWS CLI
         run: |
@@ -31,24 +47,40 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+      - name: Install EB CLI
+        run: |
+          pip install awsebcli
 
-      - name: Install dependencies
-        working-directory: ./chat
-        run: npm install
-
-      - name: Build project
-        working-directory: ./chat
-        run: npm run build
-
-      - name: Deploy to Amplify
+      - name: Initialize EB application
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ vars.AWS_REGION }}
         run: |
-          zip -r build.zip ./chat/build
-          aws amplify start-deployment --app-id ${{ secrets.AMPLIFY_APP_ID }} --branch-name main --source build.zip
+          cd chat
+          eb init -p node.js imediato-nautica-frontend --region $AWS_REGION
+
+      - name: Create EB environment
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+        run: |
+          cd chat
+          eb create imediato-nautica-frontend-env || echo "Environment already exists"
+          eb use imediato-nautica-frontend-env
+
+      - name: Deploy to Elastic Beanstalk
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+        run: |
+          cd chat
+          eb deploy imediato-nautica-frontend-env
+
+      - name: Post deployment info
+        run: |
+          echo "Frontend application successfully deployed to Elastic Beanstalk"
+        env:
+          AWS_REGION: ${{ vars.AWS_REGION }}
