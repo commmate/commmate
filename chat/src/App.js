@@ -38,6 +38,10 @@ function App() {
         body: JSON.stringify({ user_input: userInput })
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
       setMessages([
         ...newMessages,

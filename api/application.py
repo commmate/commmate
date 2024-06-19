@@ -5,7 +5,7 @@ from openai import OpenAI
 import awsgi
 
 application = Flask(__name__)
-CORS(application, resources={r"/*": {"origins": "*"}}, supports_credentials=True, allow_headers=["Content-Type"])
+CORS(application, resources={r"/*": {"origins": "*", "allow_headers": "*"}})
 
 # Configuração da API OpenAI
 client = OpenAI(
