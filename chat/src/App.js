@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
+import axios from 'axios';
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -30,22 +31,13 @@ function App() {
     setUserInput('');
 
     try {
-      const response = await fetch('http://api.imediatonautica.com.br/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ user_input: userInput })
-      });
+      const response = await axios.post('http://api.imediatonautica.com.br/chat', 
+      { user_input: userInput }, 
+      { withCredentials: false });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
       setMessages([
         ...newMessages,
-        { role: 'assistant', content: data.response }
+        { role: 'assistant', content: response.data.response }
       ]);
     } catch (error) {
       console.error('Error:', error);
