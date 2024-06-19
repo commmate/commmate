@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './css/styles.css';  // Atualize o caminho conforme a estrutura do seu projeto
+import './css/styles.css';
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -49,9 +49,9 @@ function App() {
   };
 
   return (
-    <div className="d-flex flex-column flex-grow-1 overflow-hidden">
-      <main className="flex-grow-1 d-flex flex-column bg-dark-blue text-white">
-        <div className="flex-grow-1 d-flex flex-column-reverse overflow-auto p-4">
+    <div className="d-flex flex-column flex-grow-1 overflow-hidden chat-container">
+      <main className="flex-grow-1 d-flex flex-column bg-dark-blue text-white chat-main">
+        <div className="flex-grow-1 d-flex flex-column-reverse overflow-auto p-4 chat-messages">
           <div ref={messagesEndRef} />
           {messages.slice(0).reverse().map((message, index) => (
             <div key={index} className={`p-2 ${message.role === 'user' ? 'text-end' : 'text-start'}`}>
@@ -61,7 +61,7 @@ function App() {
             </div>
           ))}
         </div>
-        <form onSubmit={handleSubmit} className="d-flex p-4">
+        <form onSubmit={handleSubmit} className="d-flex p-4 chat-input">
           <input
             type="text"
             value={userInput}
@@ -79,4 +79,3 @@ function App() {
 }
 
 export default App;
-
