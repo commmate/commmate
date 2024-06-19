@@ -5,7 +5,7 @@ from openai import OpenAI
 import awsgi
 
 application = Flask(__name__)
-CORS(application)  # Enable CORS for all routes
+CORS(application, resources={r"/*": {"origins": "*"}})  # Enable CORS for all routes and origins
 
 # Configuração da API OpenAI
 client = OpenAI(
@@ -20,7 +20,7 @@ def chat():
         return jsonify({"error": "user_input is required"}), 400
 
     messages = [
-        {"role": "system", "content": "You are a customer support chat from Imetiato Nautica, an online e-commerce store for marine products. You only answer product-related questions."},
+        {"role": "system", "content": "You are a customer support chat from Imediato Nautica, an online e-commerce store for marine products. You only answer product-related questions."},
         {"role": "user", "content": user_input}
     ]
 
@@ -49,4 +49,3 @@ def lambda_handler(event, context):
 
 if __name__ == "__main__":
     application.run(debug=True)
-
