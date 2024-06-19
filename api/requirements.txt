@@ -2,4 +2,5 @@ flask
 openai
 awsgi
 gunicorn
+flask_cors
 
