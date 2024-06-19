@@ -1,9 +1,11 @@
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from openai import OpenAI
 import awsgi
 
 application = Flask(__name__)
+CORS(application)  # Enable CORS for all routes
 
 # Configuração da API OpenAI
 client = OpenAI(
