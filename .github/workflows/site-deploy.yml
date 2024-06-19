@@ -39,6 +39,7 @@ jobs:
             echo "Bucket does not exist, creating..."
             aws s3api create-bucket --bucket imediatonautica.com.br --region ${{ vars.AWS_REGION }} --create-bucket-configuration LocationConstraint=${{ vars.AWS_REGION }}
             aws s3api put-bucket-versioning --bucket imediatonautica.com.br --versioning-configuration Status=Enabled
+          fi
 
       - name: Sync files to S3
         run: |
