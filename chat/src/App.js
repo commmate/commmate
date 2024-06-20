@@ -32,11 +32,12 @@ function App() {
 
     try {
       const response = await axios.post('http://api.imediatonautica.com.br/chat', 
-      { user_input: userInput }, 
+      // const response = await axios.post('http://127.0.0.1:5000/chat',
+      { chat_history: newMessages }, 
       { withCredentials: false });
 
-      setMessages([
-        ...newMessages,
+      setMessages(prevMessages => [
+        ...prevMessages,
         { role: 'assistant', content: response.data.response }
       ]);
     } catch (error) {

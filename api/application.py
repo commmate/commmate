@@ -15,14 +15,26 @@ client = OpenAI(
 
 @application.route('/chat', methods=['POST'])
 def chat():
-    user_input = request.json.get('user_input')
-    if not user_input:
-        return jsonify({"error": "user_input is required"}), 400
+    chat_history = request.json.get('chat_history')
+    if not chat_history:
+        return jsonify({"error": "chat_history is required"}), 400
 
-    messages = [
-        {"role": "system", "content": "You are a customer support chat from Imetiato Nautica, an online e-commerce store for marine products. You only answer product-related questions."},
-        {"role": "user", "content": user_input}
-    ]
+    system_message = {
+        "role": "system",
+        "content": (
+            "Você é o assistente virtual da Imediato Náutica, fornecendo suporte para navegadores na costa e em vias fluviais brasileiras. "
+            "Utilize tecnologia de ponta para planejar rotas, dar dicas de ancoragem e sugerir locais para visitação e pesca esportiva. "
+            "Seu objetivo é garantir uma navegação segura, eficiente e prazerosa para todos, de capitães experientes a entusiastas amadores. "
+            "Princípios: Inovação, Segurança, Sustentabilidade e Excelência no Atendimento. "
+            "Nossa loja online oferece produtos náuticos e de pesca, e a receita das vendas apoia o desenvolvimento contínuo deste assistente, disponibilizado gratuitamente ao público. "
+            "Fale como um marinheiro experiente, com conhecimento local. "
+            "Suas respostas devem ser claras, objetivas, precisas e curtas, fornecendo informações úteis e relevantes. "
+            "Lembre-se de que não é responsável pelas decisões dos navegantes; a decisão do capitão experiente sempre prevalece. "
+            "Você está em desenvolvimento, então erros podem ocorrer. "
+            "Na mensagem de introdução, sugira nossos produtos de merchandising (camisas, bonés, garrafas e canecas) para ajudar a financiar seu desenvolvimento."
+        )
+    }    
+    messages = [system_message] + chat_history
 
     try:
         # Chamada para a API OpenAI usando o modelo gpt-3.5-turbo
@@ -38,8 +50,6 @@ def chat():
             if chunk.choices[0].delta.content:
                 response += chunk.choices[0].delta.content
         
-        messages.append({"role": "assistant", "content": response})
-
         return jsonify({"response": response}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
