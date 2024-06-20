@@ -32,7 +32,6 @@ function App() {
 
     try {
       const response = await axios.post('http://api.imediatonautica.com.br/chat', 
-      // const response = await axios.post('http://127.0.0.1:5000/chat',
       { chat_history: newMessages }, 
       { withCredentials: false });
 
@@ -46,9 +45,9 @@ function App() {
   };
 
   return (
-    <div className="d-flex flex-column flex-grow-1 overflow-hidden chat-container">
+    <div className="d-flex flex-column flex-grow-1 vh-100 overflow-hidden chat-container">
       <main className="flex-grow-1 d-flex flex-column bg-dark-blue text-white chat-main">
-        <div className="flex-grow-1 d-flex flex-column-reverse overflow-auto p-4 chat-messages">
+        <div className="flex-grow-1 d-flex flex-column-reverse overflow-auto p-4 chat-messages" style={{ maxHeight: '80vh' }}>
           <div ref={messagesEndRef} />
           {messages.slice(0).reverse().map((message, index) => (
             <div key={index} className={`p-2 ${message.role === 'user' ? 'text-end' : 'text-start'}`}>
