@@ -31,7 +31,8 @@ function App() {
     setUserInput('');
 
     try {
-      const response = await axios.post('http://api.imediatonautica.com.br/chat', 
+      // const response = await axios.post('http://api.imediatonautica.com.br/chat', 
+      const response = await axios.post('http://127.0.0.1:5000/chat', 
       { chat_history: newMessages }, 
       { withCredentials: false });
 
