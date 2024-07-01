@@ -18,10 +18,6 @@ Welcome to the CommMate repository! This repository contains the source code and
 
 If you encounter any issues or have any questions, please open an issue in this repository or contact our support team at [support@commmate.com](support@commmate.com).
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
-
 ## Contact
 
 For more information about CommMate and our services, visit our website: [commmate.com](https://commmate.com).
